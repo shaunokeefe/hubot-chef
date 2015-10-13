@@ -45,3 +45,12 @@ default['hubot']['supervisor']['stdout_logfile_backups'] = 10
 default['hubot']['supervisor']['stderr_logfile'] = '/var/log/hubot_error.log'
 default['hubot']['supervisor']['stderr_logfile_maxbytes'] = '10MB'
 default['hubot']['supervisor']['stderr_logfile_backups'] = 10
+
+case node['platform_family']
+when 'debian'
+  default['hubot']['nodejs']['version'] = ''
+  default['hubot']['nodejs']['install_method'] = 'package'
+else
+  default['hubot']['nodejs']['version'] = 'v4.1.2'
+  default['hubot']['nodejs']['install_method'] = 'source'
+end

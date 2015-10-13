@@ -25,9 +25,11 @@ end
 
 case node['platform_family']
 when 'debian'
-  node.set['nodejs']['install_method'] = 'package'
+  node.set['nodejs']['install_method'] = node['hubot']['nodejs']['install_method']
+  node.set['nodejs']['version'] = node['hubot']['nodejs']['version']
 else
-  node.set['nodejs']['install_method'] = 'source'
+  node.set['nodejs']['install_method'] = node['hubot']['nodejs']['install_method']
+  node.set['nodejs']['version'] = node['hubot']['nodejs']['version']
 end
 
 include_recipe 'nodejs'
