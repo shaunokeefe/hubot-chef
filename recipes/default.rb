@@ -19,6 +19,10 @@
 
 include_recipe 'git'
 
+%w(build-essential libexpat1-dev).each do |package|
+  package package
+end
+
 case node['platform_family']
 when 'debian'
   node.set['nodejs']['install_method'] = 'package'
@@ -27,6 +31,8 @@ else
 end
 
 include_recipe 'nodejs'
+
+nodejs_npm 'coffee-script'
 
 user node['hubot']['user'] do
   comment 'Hubot User'
