@@ -52,14 +52,16 @@ directory node['hubot']['install_dir'] do
   mode '0755'
 end
 
-git ::File.join(Chef::Config[:file_cache_path], 'hubot') do
+git "#{node['hubot']['install_dir']}" do
   repository node['hubot']['git_source']
   revision "v#{node['hubot']['version']}"
   notifies :install, 'nodejs_npm[hubot]', :immediately
+  user node['hubot']['user']
+  group node['hubot']['group']
 end
 
 nodejs_npm 'hubot' do
-  path ::File.join(Chef::Config[:file_cache_path], 'hubot')
+  path "#{node['hubot']['install_dir']}"
   json true
   user 'root'
   group 'root'
