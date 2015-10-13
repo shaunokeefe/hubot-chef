@@ -68,34 +68,40 @@ nodejs_npm 'hubot' do
   action :nothing
 end
 
-template "#{node['hubot']['install_dir']}/package.json" do
-  source 'package.json.erb'
-  owner node['hubot']['user']
-  group node['hubot']['group']
-  mode '0644'
-  variables node['hubot'].to_hash
-  notifies :install, 'nodejs_npm[install]', :immediately
+if node['hubot']['manage_package_json']
+  template "#{node['hubot']['install_dir']}/package.json" do
+    source 'package.json.erb'
+    owner node['hubot']['user']
+    group node['hubot']['group']
+    mode '0644'
+    variables node['hubot'].to_hash
+    notifies :install, 'nodejs_npm[install]', :immediately
+  end
 end
 
 # Get the daemonizing server
 daemon = node['hubot']['daemon']
 
-template "#{node['hubot']['install_dir']}/hubot-scripts.json" do
-  source 'hubot-scripts.json.erb'
-  owner node['hubot']['user']
-  group node['hubot']['group']
-  mode '0644'
-  variables node['hubot'].to_hash
-  notifies :restart, "#{daemon}_service[hubot]", :delayed
+if node['hubot']['manage_hubot_scripts']
+  template "#{node['hubot']['install_dir']}/hubot-scripts.json" do
+    source 'hubot-scripts.json.erb'
+    owner node['hubot']['user']
+    group node['hubot']['group']
+    mode '0644'
+    variables node['hubot'].to_hash
+    notifies :restart, "#{daemon}_service[hubot]", :delayed
+  end
 end
 
-template "#{node['hubot']['install_dir']}/external-scripts.json" do
-  source 'external-scripts.json.erb'
-  owner node['hubot']['user']
-  group node['hubot']['group']
-  mode '0644'
-  variables node['hubot'].to_hash
-  notifies :restart, "#{daemon}_service[hubot]", :delayed
+if node['hubot']['manage_external_scripts']
+  template "#{node['hubot']['install_dir']}/external-scripts.json" do
+    source 'external-scripts.json.erb'
+    owner node['hubot']['user']
+    group node['hubot']['group']
+    mode '0644'
+    variables node['hubot'].to_hash
+    notifies :restart, "#{daemon}_service[hubot]", :delayed
+  end
 end
 
 nodejs_npm 'install' do

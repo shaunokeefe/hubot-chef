@@ -54,3 +54,7 @@ else
   default['hubot']['nodejs']['version'] = 'v4.1.2'
   default['hubot']['nodejs']['install_method'] = 'source'
 end
+
+default['hubot']['manage_package_json'] = true
+default['hubot']['manage_hubot_scripts'] = true
+default['hubot']['manage_external_scripts'] = true
