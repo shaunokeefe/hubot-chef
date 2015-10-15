@@ -1,3 +1,5 @@
+node.default['supervisor']['unix_http_server']['chmod'] = '0770'
+node.default['supervisor']['unix_http_server']['chown'] = "#{node['hubot']['user']}:#{node['hubot']['group']}"
 include_recipe 'supervisor'
 
 hubot_name = node['hubot']['name']
